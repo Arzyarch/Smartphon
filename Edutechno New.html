@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartPhon - English Phonetics Learning Platform</title>
+  <meta name="description" content="SmartPhon — a refined academic platform for mastering the International Phonetic Alphabet (IPA).">
+  
+  <!-- Elegant Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #f8f8f8;
+      --accent: #111;
+      --muted: #555;
+      --card: #fff;
+      --radius: 12px;
+      --shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--accent);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 35px 10px;
+      box-shadow: var(--shadow);
+      animation: fadeInUp 1s ease-out;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8em;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      animation: slideInLeft 1.2s ease-out 0.2s both;
+    }
+    header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+      animation: slideInRight 1.2s ease-out 0.4s both;
+    }
+
+    main {
+      display: none;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px 50px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    /* Intro Form */
+    .intro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: 20px;
+      position: relative; /* For absolute positioning of overlay and welcome */
+      animation: scaleIn 1s ease-out;
+    }
+    .intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.1em;
+      margin-bottom: 15px;
+      font-weight: 600;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+    .intro p {
+      max-width: 600px;
+      color: var(--muted);
+      margin-bottom: 25px;
+      font-size: 1.05em;
+      line-height: 1.6;
+      animation: fadeInUp 1s ease-out 0.5s both;
+    }
+    .intro input {
+      padding: 14px;
+      font-size: 1.05em;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+      margin-bottom: 18px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 1s ease;
+      z-index: 15; /* Higher than overlay to stay interactive */
+    }
+    .intro input:focus {
+      border-color: #000;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transform: scale(1.05);
+    }
+    .intro button {
+      background: #000;
+      color: #fff;
+      border: 0;
+      padding: 12px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.05em;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 1s ease;
+      font-weight: 500;
+      animation: fadeInUp 1s ease-out 0.7s both;
+      z-index: 15; /* Higher than overlay to stay interactive */
+    }
+    .intro button:hover {
+      background: #333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(248, 248, 248, 0.9); /* Semi-transparent background to cover input */
+      border-radius: var(--radius);
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 5; /* Lower than input/button */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay.show {
+      opacity: 1;
+    }
+    .welcome-message {
+      font-family: 'Playfair Display', serif;
+      font-size: 3em;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 1s ease, transform 1s ease;
+      text-align: center;
+      z-index: 10; /* Above overlay */
+    }
+    .welcome-message.show {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    /* Hero - Introduction */
+    .hero {
+      background: linear-gradient(135deg, #121212, #1f1f1f);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 60px 40px;
+      text-align: left;
+      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+      animation: slideInLeft 1s ease-out 0.2s both;
+    }
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.3em;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      margin-bottom: 15px;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+    .hero p {
+      max-width: 820px;
+      margin: 0;
+      font-size: 1.08em;
+      line-height: 1.75;
+      font-weight: 300;
+      color: #ddd;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    /* Sections */
+    .section {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 1s ease-out both;
+      animation-delay: calc(var(--section-index) * 0.2s);
+    }
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6em;
+      margin-bottom: 10px;
+      animation: slideInLeft 0.8s ease-out 0.2s both;
+    }
+    .section p {
+      color: var(--muted);
+      font-size: 1em;
+      line-height: 1.6;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+    .section a {
+      display: inline-block;
+      margin-top: 18px;
+      text-decoration: none;
+      background: #000;
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 500;
+      animation: scaleIn 0.8s ease-out 0.6s both;
+    }
+    .section a:hover {
+      background: rgb(51, 51, 51);
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 18px;
+      margin-top: auto;
+      font-size: 0.95em;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    /* Keyframe Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SmartPhon</h1>
+    <p>Innovative English Phonetics Learning Platform</p>
+  </header>
+
+  <!-- Welcome Section -->
+  <section class="intro" id="introForm">
+    <h2>Welcome to SmartPhon</h2>
+    <p>
+      Advance your understanding of English phonetics through structured, research-based learning. 
+      Enter your name to begin your personalized academic experience.
+    </p>
+    <input type="text" id="nameInput" placeholder="Enter your name" aria-label="Enter your name">
+    <button onclick="showWelcome()">Submit</button>
+    <div class="overlay" id="overlay">
+      <div id="welcomeMessage" class="welcome-message"></div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main id="mainContent">
+    <section class="hero">
+      <h2>Introduction</h2>
+      <p>
+        SmartPhon is introduced as a cutting-edge, specialized academic e-learning infrastructure, meticulously developed to address the critical need for robust phonetic instruction within higher education and specialized language training.
+
+Its core mission is to systematically elevate and solidify users' phonetic and phonological competency. This objective is achieved through a structured, scaffolded curriculum that mandates deep, comprehensive engagement with the International Phonetic Alphabet (IPA).
+
+The platform provides interactive, data-driven modules designed for the precise acquisition and application of IPA symbols, ensuring learners not only recognize but can accurately transcribe and articulate the full spectrum of human speech sounds. Ultimately, SmartPhon serves as the definitive digital tool for fostering linguistic precision and mastery of accurate pronunciation.
+      </p>
+    </section>
+
+    <section class="section" style="--section-index: 1;">
+      <h2>Lesson — IPA Symbols</h2>
+      <p>Study core phonetic symbols and explore their articulatory characteristics and linguistic functions.</p>
+      <a href="lesson.html">Go to Lesson</a>
+    </section>
+
+    <section class="section" style="--section-index: 2;">
+      <h2>Tongue Twisters</h2>
+      <p>Enhance articulatory precision and rhythm through structured phonetic challenges and fluency exercises.</p>
+      <a href="tongue-twister.html">Go to Tongue Twister</a>
+    </section>
+
+    <section class="section" style="--section-index: 3;">
+      <h2>Exercise</h2>
+      <p>Test Your Might</p>
+      <a href="exercise.html">Go to Exercise</a>
+    </section>
+
+    <section class="section" style="--section-index: 4;">
+      <h2>Premium Access</h2>
+      <p>Unlock advanced features, exclusive content, and personalized support for an enhanced learning experience.</p>
+      <a href="premium.html" target="_blank">Go to Premium</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 SmartPhon. Developed By Arya, Chintya, And Rosa.</p>
+  </footer>
+
+  <script>
+    function showWelcome() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) {
+        alert('Please enter your name.');
+        return;
+      }
+
+      // Fade out input and button first
+      document.getElementById('nameInput').classList.add('fade-out');
+      document.querySelector('.intro button').classList.add('fade-out');
+
+      // After fade-out completes, show overlay and welcome message
+      setTimeout(() => {
+        const overlay = document.getElementById('overlay');
+        overlay.classList.add('show');
+        const welcome = document.getElementById('welcomeMessage');
+        welcome.innerHTML = `Welcome, ${name}.`;
+        welcome.classList.add('show');
+      }, 1000); // Wait for fade-out to finish
+
+      // After full animation, hide intro and show main content
+      setTimeout(() => {
+        document.getElementById('introForm').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 3000); // Total 3s for smooth flow
+    }
+  </script>
+</body>
+</html>
